@@ -11,8 +11,9 @@ var roleBuilder = {
         }
 
         if (creep.memory.building) {
-            //Upgrade to focus on target nearest completion
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+            //Order building priority purely on closest to completion
+            targets.sort(function(a, b){return (a.progressTotal - a.progress) - (b.progressTotal - b.progress)});
             if (targets.length) {
                 if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#88ff88'}});
