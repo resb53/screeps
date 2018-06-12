@@ -1,10 +1,12 @@
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
+var roleUtility = require('role.utility');
 
-HARVESTERS_MIN = 2;
-UPGRADERS_MIN = 2;
-BUILDERS_MIN = 2;
+HARVESTERS_MIN = 1;
+UPGRADERS_MIN = 1;
+BUILDERS_MIN = 1;
+UTILITY_MIN = 3;
 
 module.exports.loop = function () {
     //Garbage collection
@@ -16,7 +18,7 @@ module.exports.loop = function () {
     }
 
     // Rationalise these building blocks further?
-    var worker_types = ['harvester', 'upgrader', 'builder'];
+    var worker_types = ['harvester', 'upgrader', 'builder', 'utility'];
     var workers = {};
 
     for (var i in worker_types) {
@@ -37,6 +39,11 @@ module.exports.loop = function () {
     else if (workers['builder'].length < BUILDERS_MIN) {
         var newName = 'Builder' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'builder'}});
+    }
+
+    else if (workers['builder'].length < UTILITY_MIN) {
+        var newName = 'Utility' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'utility'}});
     }
     // END
 
@@ -62,6 +69,9 @@ module.exports.loop = function () {
             case 'builder':
                 roleBuilder.run(creep);
                 break;
+            case 'utility':
+                roleUtility.run(creep);
+                break
             default:
                 console.log("No AI applied to creep with role: ", creep.memory.role);
         }
