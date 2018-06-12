@@ -18,26 +18,26 @@ var roleUtility = {
         else {
             //Better to not have every creep think of all of this? Have one 'overseer' that tasks the utilities?
             // Look for energising structures
-            var targets = creep.room.find(FIND_STRUCTURES, { filter: (structure) => {
+            var energise = creep.room.find(FIND_STRUCTURES, { filter: (structure) => {
                 return (structure.structureType == STRUCTURE_EXTENSION 
                      || structure.structureType == STRUCTURE_SPAWN) 
                      && structure.energy < structure.energyCapacity;
                 }
             });
             // Prioritise building sites
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+            var builds = creep.room.find(FIND_CONSTRUCTION_SITES);
             //Order building priority purely on closest to completion
-            targets.sort(function(a, b){return (a.progressTotal - a.progress) - (b.progressTotal - b.progress)});
+            builds.sort(function(a, b){return (a.progressTotal - a.progress) - (b.progressTotal - b.progress)});
 
             // Operate based on priority Energise > Build > Upgrade
-            if(targets.length) {
-                if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#88ff88'}});
+            if(energise.length) {
+                if(creep.transfer(energise[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(energise[0], {visualizePathStyle: {stroke: '#88ff88'}});
                 }
             }
-            else if (targets.length) {
-                if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#88ff88'}});
+            else if (builds.length) {
+                if (creep.build(builds[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(builds[0], {visualizePathStyle: {stroke: '#88ff88'}});
                 }
             }
             else {
