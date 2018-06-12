@@ -1,5 +1,6 @@
 var roleMinion = require('role.minion');
 var roleOverlord = require('role.overlord');
+var currentOrders = require('current.orders');
 
 OVERLORDS_MIN = 1;
 MINIONS_MIN = 5;
@@ -28,6 +29,11 @@ module.exports.loop = function () {
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'minion'}});
     }
     else if (workers['overlord'].length < OVERLORDS_MIN) {
+        // Force workers to spawn a new Overlord if not already
+        if (currentOrders.get() != ['energise', Game.spawns['Spawn1']]) {
+            currentOrders.set(['energise', Game.spawns['Spawn1']]);
+            console.log('An Overlord has perished. Long live the new Overlord');
+        }
         var newName = 'Overlord' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'overlord'}});
     }
