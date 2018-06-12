@@ -1,9 +1,6 @@
 var roleMinion = require('role.minion');
 var roleOverlord = require('role.overlord');
-var currentOrders = require('current.orders');
-
-OVERLORDS_MIN = 1;
-MINIONS_MIN = 5;
+var actionSpawn = require('action.spawn');
 
 module.exports.loop = function () {
     //Garbage collection
@@ -14,51 +11,7 @@ module.exports.loop = function () {
         }
     }
 
-    // Rationalise these building blocks further?
-    var worker_types = ['minion', 'overlord'];
-    var workers = {};
-
-    for (var i in worker_types) {
-        workers[worker_types[i]] = _.filter(Game.creeps, (creep) => creep.memory.role == worker_types[i]);
-        //console.log(JSON.stringify(workers));
-    }
-
-    // Always have a minion
-    if (workers['minion'].length < 1) {
-        var newName = 'Minion' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'minion'}});
-    }
-    else if (workers['overlord'].length < OVERLORDS_MIN) {
-        // Promote the minion with the longest left to live if the overlord count drops as long as at least one will remain, else rush a new Overlord
-        if (workers['minion'].length >= 2) {
-            workers['minion'].sort(function(a, b){return (b.ticksToLive) - (a.ticksToLive)});
-            workers['minion'][0].memory.role = 'overlord';
-            console.log('An Overlord has perished. Long live ' + workers['minion'][0].name + ', promoted as a new Overlord.')
-        }
-        else {
-            if (currentOrders.get() != ['energise', Game.spawns['Spawn1']]) {
-                currentOrders.set(['energise', Game.spawns['Spawn1']]);
-            }
-            var newName = 'Overlord' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'overlord'}});
-            console.log('An Overlord has perished. Long live the new Overlord');
-        }
-    }
-
-    else if (workers['minion'].length < MINIONS_MIN) {
-        var newName = 'Minion' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'minion'}});
-    }
-
-    if (Game.spawns['Spawn1'].spawning) {
-        var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
-        Game.spawns['Spawn1'].room.visual.text(
-            '🛠️ ' + spawningCreep.memory.role,
-            Game.spawns['Spawn1'].pos.x + 1,
-            Game.spawns['Spawn1'].pos.y,
-            {align: 'left', opacity: 0.8}
-        );
-    }
+    actionSpawn.spawn();
 
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
