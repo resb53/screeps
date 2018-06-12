@@ -21,19 +21,20 @@ module.exports.loop = function () {
 
     for (var i in worker_types) {
         workers[worker_types[i]] = _.filter(Game.creeps, (creep) => creep.memory.role == worker_types[i]);
+        //console.log(JSON.stringify(workers));
     }
     
-    if (workers['harvester'] < HARVESTERS_MIN) {
+    if (workers['harvester'].length < HARVESTERS_MIN) {
         var newName = 'Harvester' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'harvester'}});
     }
 
-    else if (workers['upgrader'] < UPGRADERS_MIN) {
+    else if (workers['upgrader'].length < UPGRADERS_MIN) {
         var newName = 'Upgrader' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'upgrader'}});
     }
 
-    else if (workers['builder'] < BUILDERS_MIN) {
+    else if (workers['builder'].length < BUILDERS_MIN) {
         var newName = 'Builder' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'builder'}});
     }
