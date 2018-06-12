@@ -2,7 +2,7 @@ var roleHarvester = {
     /** @param {Creep} creep **/
     run: function(creep) {
         if(creep.carry.energy < creep.carryCapacity) {
-            //Update to find the CLOSEST, non-depleted source
+            //Update to find the CLOSEST, non-depleted source (beyond a certain sensible limit (carrymax x2?))
             //Also breakout into a separate function so this can be controlled in one place for all creeps wanting energy?
             var sources = creep.room.find(FIND_SOURCES);
             if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {

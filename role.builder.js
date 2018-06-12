@@ -9,6 +9,7 @@ var roleBuilder = {
         }
 
         if (creep.memory.building) {
+            //Upgrade to focus on target nearest completion
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
             if (targets.length) {
                 if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
