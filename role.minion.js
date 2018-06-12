@@ -21,19 +21,19 @@ var roleUtility = {
             // Follow overlord's command
             var orders = currentOrders.get();
             
-            if(orders = 'energise') {
-                if(creep.transfer(energise[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(energise[0], {visualizePathStyle: {stroke: '#88ff88'}});
+            if(orders[0] == 'energise') {
+                if(creep.transfer(orders[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(orders[1], {visualizePathStyle: {stroke: '#88ff88'}});
                 }
             }
-            else if (orders = 'build') {
-                if (creep.build(builds[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(builds[0], {visualizePathStyle: {stroke: '#88ff88'}});
+            else if (orders[0] == 'build') {
+                if (creep.build(orders[1]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(orders[1], {visualizePathStyle: {stroke: '#88ff88'}});
                 }
             }
             else {
-                if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#88ff88'}});
+                if(creep.upgradeController(orders[1]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(orders[1], {visualizePathStyle: {stroke: '#88ff88'}});
                 }
             }
         }         

@@ -1,7 +1,5 @@
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var roleUtility = require('role.utility');
+var roleMinion = require('role.minion');
+var roleOverlord = require('role.overlord');
 
 OVERLORDS_MIN = 1;
 MINIONS_MIN = 5;
@@ -23,19 +21,18 @@ module.exports.loop = function () {
         workers[worker_types[i]] = _.filter(Game.creeps, (creep) => creep.memory.role == worker_types[i]);
         //console.log(JSON.stringify(workers));
     }
-    
+
     // Always have a minion
-    if (workers['minions'].length < 1) {
+    if (workers['minion'].length < 1) {
         var newName = 'Minion' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'minion'}});
     }
-
-    else if (workers['overlords'].length < OVERLORDS_MIN) {
+    else if (workers['overlord'].length < OVERLORDS_MIN) {
         var newName = 'Overlord' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'overlord'}});
     }
 
-    else if (workers['minions'].length < MINIONS_MIN) {
+    else if (workers['minion'].length < MINIONS_MIN) {
         var newName = 'Minion' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'minion'}});
     }
