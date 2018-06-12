@@ -1,14 +1,10 @@
+var actionHarvest = require('action.harvest');
+
 var roleHarvester = {
     /** @param {Creep} creep **/
     run: function(creep) {
         if(creep.carry.energy < creep.carryCapacity) {
-            //Update to find the CLOSEST, non-depleted source (beyond a certain sensible limit (carrymax x2?))
-            //Also breakout into a separate function so this can be controlled in one place for all creeps wanting energy?
-            //var sources = creep.room.find(FIND_SOURCES);
-            var source = creep.pos.findClosestByPath(FIND_SOURCES);
-            if(source && creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source, {visualizePathStyle: {stroke: '#ff8888'}});
-            }
+            actionHarvest.nearest(creep);
         }
         else {
             var targets = creep.room.find(FIND_STRUCTURES, {
