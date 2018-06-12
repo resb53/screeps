@@ -19,8 +19,8 @@ module.exports.loop = function () {
     var worker_types = ['harvester', 'upgrader', 'builder'];
     var workers = {};
 
-    for (var wType in worker_types) {
-        workers[wType] = _.filter(Game.creeps, (creep) => creep.memory.role == wType);
+    for (var i in worker_types) {
+        workers[worker_types[i]] = _.filter(Game.creeps, (creep) => creep.memory.role == worker_types[i]);
     }
     
     if (workers['harvester'] < HARVESTERS_MIN) {
