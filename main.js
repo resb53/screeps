@@ -3,10 +3,8 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleUtility = require('role.utility');
 
-HARVESTERS_MIN = 1;
-UPGRADERS_MIN = 1;
-BUILDERS_MIN = 1;
-UTILITY_MIN = 3;
+OVERLORDS_MIN = 1;
+MINIONS_MIN = 5;
 
 module.exports.loop = function () {
     //Garbage collection
@@ -18,7 +16,7 @@ module.exports.loop = function () {
     }
 
     // Rationalise these building blocks further?
-    var worker_types = ['harvester', 'upgrader', 'builder', 'utility'];
+    var worker_types = ['minion', 'overlord'];
     var workers = {};
 
     for (var i in worker_types) {
@@ -26,26 +24,21 @@ module.exports.loop = function () {
         //console.log(JSON.stringify(workers));
     }
     
-    if (workers['harvester'].length < HARVESTERS_MIN) {
-        var newName = 'Harvester' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'harvester'}});
+    // Always have a minion
+    if (workers['minions'].length < 1) {
+        var newName = 'Minion' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'minion'}});
     }
 
-    else if (workers['upgrader'].length < UPGRADERS_MIN) {
-        var newName = 'Upgrader' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'upgrader'}});
+    else if (workers['overlords'].length < OVERLORDS_MIN) {
+        var newName = 'Overlord' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'overlord'}});
     }
 
-    else if (workers['builder'].length < BUILDERS_MIN) {
-        var newName = 'Builder' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'builder'}});
+    else if (workers['minions'].length < MINIONS_MIN) {
+        var newName = 'Minion' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'minion'}});
     }
-
-    else if (workers['utility'].length < UTILITY_MIN) {
-        var newName = 'Utility' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'utility'}});
-    }
-    // END
 
     if (Game.spawns['Spawn1'].spawning) {
         var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
@@ -60,18 +53,12 @@ module.exports.loop = function () {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
         switch(creep.memory.role) {
-            case 'harvester':
-                roleHarvester.run(creep);
+            case 'minion':
+                roleMinion.run(creep);
                 break;
-            case 'upgrader':
-                roleUpgrader.run(creep);
+            case 'overlord':
+                roleOverlord.run(creep);
                 break;
-            case 'builder':
-                roleBuilder.run(creep);
-                break;
-            case 'utility':
-                roleUtility.run(creep);
-                break
             default:
                 console.log("No AI applied to creep with role: ", creep.memory.role);
         }
