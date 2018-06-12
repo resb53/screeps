@@ -1,8 +1,8 @@
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 
-HARVESTERS_WANTED = 1;
-UPGRADERS_WANTED = 1;
+HARVESTERS_WANTED = 2;
+UPGRADERS_WANTED = 2;
 
 module.exports.loop = function () {
     //Garbage collection
@@ -43,8 +43,12 @@ module.exports.loop = function () {
         switch(creep.memory.role) {
             case 'harvester':
                 roleHarvester.run(creep);
+                break;
             case 'upgrader':
                 roleUpgrader.run(creep);
+                break;
+            default:
+                console.log("No AI applied to creep with role: ", creep.memory.role);
         }
     }
 }
