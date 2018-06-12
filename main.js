@@ -29,13 +29,20 @@ module.exports.loop = function () {
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'minion'}});
     }
     else if (workers['overlord'].length < OVERLORDS_MIN) {
-        // Force workers to spawn a new Overlord if not already
-        if (currentOrders.get() != ['energise', Game.spawns['Spawn1']]) {
-            currentOrders.set(['energise', Game.spawns['Spawn1']]);
+        // Promote the minion with the longest left to live if the overlord count drops as long as at least one will remain, else rush a new Overlord
+        if (workers['minion'].length >= 2) {
+            workers['minion'].sort(function(a, b){return (b.ticksToLive) - (a.ticksToLive)});
+            workers['minion'][0].memory.role = 'overlord';
+            console.log('An Overlord has perished. Long live ' + workers['minion'][0].name + ', promoted as a new Overlord.')
+        }
+        else {
+            if (currentOrders.get() != ['energise', Game.spawns['Spawn1']]) {
+                currentOrders.set(['energise', Game.spawns['Spawn1']]);
+            }
+            var newName = 'Overlord' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'overlord'}});
             console.log('An Overlord has perished. Long live the new Overlord');
         }
-        var newName = 'Overlord' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'overlord'}});
     }
 
     else if (workers['minion'].length < MINIONS_MIN) {
