@@ -1,8 +1,10 @@
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
+var roleBuilder = require('role.builder');
 
 HARVESTERS_WANTED = 2;
 UPGRADERS_WANTED = 2;
+BUILDERS_WANTED = 2;
 
 module.exports.loop = function () {
     //Garbage collection
@@ -28,6 +30,14 @@ module.exports.loop = function () {
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'upgrader'}});
     }
 
+    var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
+    if (builders.length < BUILDERS_WANTED) {
+        var newName = 'Builder' + Game.time;
+        console.log('Spawning new builder: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'builder'}});
+    }
+    // END
+
     if (Game.spawns['Spawn1'].spawning) {
         var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
         Game.spawns['Spawn1'].room.visual.text(
@@ -46,6 +56,9 @@ module.exports.loop = function () {
                 break;
             case 'upgrader':
                 roleUpgrader.run(creep);
+                break;
+            case 'builder':
+                roleBuilder.run(creep);
                 break;
             default:
                 console.log("No AI applied to creep with role: ", creep.memory.role);
