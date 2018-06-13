@@ -6,6 +6,7 @@ var actionSpawn = {
     worker_types: {'minion': 5, 
                    'overlord': 1},
     workers: {},
+    spawnReported: false,
 
     // Once per turn run to check if a spawn is needed
     run: function() {
@@ -52,6 +53,14 @@ var actionSpawn = {
                 Game.spawns['Spawn1'].pos.y,
                 {align: 'left', opacity: 0.8}
             );
+            //Report new spawn once
+            if (!this.spawnReported) {
+                this.spawnReported = true;
+                console.log('Spawning a new ' + spawningCreep.memory.role + ': ' + spawningCreep.name);
+            }
+        }
+        else {
+            this.spawnReported = false;
         }
     },
 
