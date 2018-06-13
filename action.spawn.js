@@ -1,4 +1,5 @@
 var currentOrders = require('current.orders');
+var randomNames = require('random.names');
 
 var actionSpawn = {
     // Reported on console by: JSON.stringify(require('action.spawn')['worker_types']) -- build a module to make nice probe queries?
@@ -6,7 +7,7 @@ var actionSpawn = {
                    'overlord': 1},
     workers: {},
 
-    spawn: function() {
+    run: function() {
         var types = Object.keys(this.worker_types);
         for (var i in types) {
             this.workers[types[i]] = _.filter(Game.creeps, (creep) => creep.memory.role == types[i]);

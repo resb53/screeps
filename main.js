@@ -11,7 +11,7 @@ module.exports.loop = function () {
         }
     }
 
-    actionSpawn.spawn();
+    actionSpawn.run();
 
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
