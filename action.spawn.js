@@ -27,11 +27,15 @@ var actionSpawn = {
                 console.log('An Overlord has perished. Long live ' + this.workers['minion'][0].name + ', promoted as a new Overlord.')
             }
             else {
-                if (currentOrders.get() != ['energise', Game.spawns['Spawn1']]) {
+                if (currentOrders.get()[0] != 'energise') {
+                    //Possible bug here? Is there ever a time when they could be energising, but ignoring the spawn?
                     currentOrders.set(['energise', Game.spawns['Spawn1']]);
                 }
+                //Report (unless we only have 1 minion - reduce early game spam! -- maybe a better way to do this, memory to report things only once?)
+                if (this.workers['minion'].length >= 2) {
+                    console.log('An Overlord has perished. Long live the new Overlord');
+                }
                 this.spawn('Spawn1', [WORK,CARRY,MOVE,MOVE], {memory: {role: 'overlord'}});
-                console.log('An Overlord has perished. Long live the new Overlord');
             }
         }
 
