@@ -1,5 +1,3 @@
-/// <reference path=".\ScreepsAutocomplete\_references.js" />
-
 var actionHarvest = {
     /** @param {Creep} creep **/
     nearest: function(creep) {

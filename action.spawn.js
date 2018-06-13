@@ -1,4 +1,3 @@
-/// <reference path=".\ScreepsAutocomplete\_references.js" />
 var currentOrders = require('current.orders');
 
 var actionSpawn = {

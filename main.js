@@ -1,5 +1,4 @@
 /// <reference path=".\ScreepsAutocomplete\_references.js" />
-
 var roleMinion = require('role.minion');
 var roleOverlord = require('role.overlord');
 var actionSpawn = require('action.spawn');
