@@ -1,6 +1,7 @@
 var roleMinion = require('role.minion');
 var roleOverlord = require('role.overlord');
 var actionSpawn = require('action.spawn');
+var actionConstruct = require('action.construct');
 
 module.exports.loop = function () {
     //Garbage collection
@@ -12,6 +13,8 @@ module.exports.loop = function () {
     }
 
     actionSpawn.run();
+
+    actionConstruct.updateAvailable();
 
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
