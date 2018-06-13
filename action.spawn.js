@@ -2,7 +2,6 @@ var currentOrders = require('current.orders');
 var randomNames = require('random.names');
 
 var actionSpawn = {
-    // Reported on console by: JSON.stringify(require('action.spawn')['worker_types']) -- build a module to make nice probe queries?
     worker_types: {'minion': 5, 
                    'overlord': 1},
     workers: {},
