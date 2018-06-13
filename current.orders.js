@@ -1,3 +1,5 @@
+/// <reference path=".\ScreepsAutocomplete\_references.js" />
+
 var currentOrders = {
     orders: ['energise', Game.spawns['Spawn1']], //'build','upgrade'
     get: function() {

@@ -1,3 +1,4 @@
+/// <reference path=".\ScreepsAutocomplete\_references.js" />
 var actionHarvest = require('action.harvest');
 var currentOrders = require('current.orders');
 
