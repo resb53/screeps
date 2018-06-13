@@ -55,7 +55,7 @@ var actionSpawn = {
      * @param {String} Spawn - The spawn name
      * @param {String[]} build - The build of the creep
      * @param {Object} [opts] - Options */
-    spawn: function() {
+    spawn: function(Spawn, build, opts) {
         if (opts) {
             while (Game.spawns[Spawn].spawnCreep(build, randomNames.get(), opts) == ERR_NAME_EXISTS) {}
         }
