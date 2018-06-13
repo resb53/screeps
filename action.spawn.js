@@ -7,6 +7,7 @@ var actionSpawn = {
                    'overlord': 1},
     workers: {},
 
+    // Once per turn run to check if a spawn is needed
     run: function() {
         var types = Object.keys(this.worker_types);
         for (var i in types) {
@@ -16,8 +17,7 @@ var actionSpawn = {
 
         // Always have a minion
         if (this.workers['minion'].length < 1) {
-            var newName = 'Minion' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'minion'}});
+            this.spawn('Spawn1', [WORK,CARRY,MOVE,MOVE], {memory: {role: 'minion'}});
         }
         else if (this.workers['overlord'].length < this.worker_types['overlord']) {
             // Promote the minion with the longest left to live if the overlord count drops as long as at least one will remain, else rush a new Overlord
@@ -30,15 +30,13 @@ var actionSpawn = {
                 if (currentOrders.get() != ['energise', Game.spawns['Spawn1']]) {
                     currentOrders.set(['energise', Game.spawns['Spawn1']]);
                 }
-                var newName = 'Overlord' + Game.time;
-                Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'overlord'}});
+                this.spawn('Spawn1', [WORK,CARRY,MOVE,MOVE], {memory: {role: 'overlord'}});
                 console.log('An Overlord has perished. Long live the new Overlord');
             }
         }
 
         else if (this.workers['minion'].length < this.worker_types['minion']) {
-            var newName = 'Minion' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, {memory: {role: 'minion'}});
+            this.spawn('Spawn1', [WORK,CARRY,MOVE,MOVE], {memory: {role: 'minion'}});
         }
 
         // Display spawn text
@@ -50,6 +48,19 @@ var actionSpawn = {
                 Game.spawns['Spawn1'].pos.y,
                 {align: 'left', opacity: 0.8}
             );
+        }
+    },
+
+    /** Spawn a certain creep at a certain spawn 
+     * @param {String} Spawn - The spawn name
+     * @param {String[]} build - The build of the creep
+     * @param {Object} [opts] - Options */
+    spawn: function() {
+        if (opts) {
+            while (Game.spawns[Spawn].spawnCreep(build, randomNames.get(), opts) == ERR_NAME_EXISTS) {}
+        }
+        else{
+            while (Game.spawns[Spawn].spawnCreep(build, randomNames.get()) == ERR_NAME_EXISTS) {}
         }
     }
 };
