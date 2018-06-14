@@ -2,12 +2,26 @@ var currentOrders = require('current.orders');
 var randomNames = require('random.names');
 
 var actionSpawn = {
-    worker_types: {'minion': 5, 
+
+    /**
+     * Hash of number of desired living workers
+     */
+    worker_types: {'minion': 5,
                    'overlord': 1},
+
+    /**
+     * Hash of currently living workers
+     */
     workers: {},
+
+    /**
+     * Flag for whether a spawn has been reported yet
+     */
     spawnReported: false,
 
-    // Once per turn run to check if a spawn is needed
+    /**
+     * run - Function to run each tick to see what spawns are needed
+     */
     run: function() {
         var types = Object.keys(this.worker_types);
         for (var i in types) {
@@ -63,10 +77,13 @@ var actionSpawn = {
         }
     },
 
-    /** Spawn a certain creep at a certain spawn 
-     * @param {String} Spawn - The spawn name
-     * @param {String[]} build - The build of the creep
-     * @param {Object} [opts] - Options */
+    /**
+     * spawn - Spawn a certain creep at a certain spawn
+     *
+     * @param  {String} Spawn The spawn name
+     * @param  {String[]} build The build of the creep
+     * @param  {Object} [opts]  Options
+     */
     spawn: function(Spawn, build, opts) {
         if (opts) {
             while (Game.spawns[Spawn].spawnCreep(build, randomNames.get(), opts) == ERR_NAME_EXISTS) {}

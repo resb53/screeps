@@ -2,7 +2,12 @@ var actionHarvest = require('action.harvest');
 var currentOrders = require('current.orders');
 
 var roleOverlord = {
-    /** @param {Creep} creep **/
+
+    /**
+     * run - provides AI for creeps of the role 'overlord'
+     *      
+     * @param  {Creep} creep The creep that is to be given this AI.
+     */
     run: function(creep) {
         // Check fuel
         if(creep.carry.energy == 0) {
@@ -23,13 +28,13 @@ var roleOverlord = {
                 creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#88ff88'}});
             }
         }
-        
+
         // Observe state of room and command minions
 
         // Look for energising structures
         var energise = creep.room.find(FIND_STRUCTURES, { filter: (structure) => {
-            return (structure.structureType == STRUCTURE_EXTENSION 
-                 || structure.structureType == STRUCTURE_SPAWN) 
+            return (structure.structureType == STRUCTURE_EXTENSION
+                 || structure.structureType == STRUCTURE_SPAWN)
                  && structure.energy < structure.energyCapacity;
             }
         });

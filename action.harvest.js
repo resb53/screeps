@@ -1,5 +1,10 @@
 var actionHarvest = {
-    /** @param {Creep} creep **/
+
+    /**
+     * nearest - Orders the creep to harvest from the nearest source.
+     *
+     * @param  {Creep} creep The creep that will harvest
+     */     
     nearest: function(creep) {
         // Find the closest source that has enough energy for a full refil
         var source = creep.pos.findClosestByPath(FIND_SOURCES, {filter: (source) => source.energy >= creep.carryCapacity});

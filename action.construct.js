@@ -1,12 +1,24 @@
 var actionConstruct = {
+
+    /**
+     * Hash of currently available sites that can be placed.
+     */
     structures_available: {},
 
     /** Returns array of structureTypes and how many can be built */
+
+    /**
+     * getAvailable - gets a hash of the max number of sites that can be placed.
+     *
+     * @return {Object}  Hash with structureTypes and number of sites that can be placed.
+     */
     getAvailable: function() {
         return this.structures_available;
     },
 
-    /** Command module to get new list of available structures. Expected each tick. */
+    /**
+     * updateAvailable - update the current count of what sites can be placed
+     */
     updateAvailable: function() {
         // Check current room controller level
         let room = Game.spawns['Spawn1'].room;

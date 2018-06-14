@@ -2,7 +2,12 @@ var actionHarvest = require('action.harvest');
 var currentOrders = require('current.orders');
 
 var roleUtility = {
-    /** @param {Creep} creep **/
+
+    /**
+     * run - provides AI for creeps of the role 'minion'
+     *
+     * @param  {Creep} creep The creep that is to be given this AI.
+     */
     run: function(creep) {
         // Check fuel
         if(creep.carry.energy == 0) {
@@ -20,7 +25,7 @@ var roleUtility = {
         else {
             // Follow overlord's command
             var orders = currentOrders.get();
-            
+
             if(orders[0] == 'energise') {
                 if(creep.transfer(orders[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(orders[1], {visualizePathStyle: {stroke: '#88ff88'}});
@@ -36,7 +41,7 @@ var roleUtility = {
                     creep.moveTo(orders[1], {visualizePathStyle: {stroke: '#88ff88'}});
                 }
             }
-        }         
+        }
     }
 };
 
